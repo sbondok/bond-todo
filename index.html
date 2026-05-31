@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="تطبيق إدارة المهام اليومية الذكي والآمن - منصة المدرسة التعليمية بتصميم عصري وأداء فائق" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <title>Almdrasa - Bond - To Do project</title>
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.scss" />
+  </head>
+  <body>
+    <main class="App">
+      <!-- Background Decorative Lights -->
+      <div class="Bubble Bubble--1"></div>
+      <div class="Bubble Bubble--2"></div>
+      
+      <div class="App__wrapper">
+        <!-- Premium Header -->
+        <header class="Header">
+          <button class="DarkThemeToggle" aria-label="تبديل الوضع الليلي">
+            <!-- Sun SVG Icon (Visible in Dark Mode) -->
+            <svg class="ThemeIcon ThemeIcon--sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+            <!-- Moon SVG Icon (Visible in Light Mode) -->
+            <svg class="ThemeIcon ThemeIcon--moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <span class="DarkThemeToggle__text">الوضع الداكن</span>
+          </button>
+          
+          <div class="SocialLinks">
+            <a href="https://www.facebook.com/sayed.bondok.3" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <img class="SocialLinks__img" src="./assets/icon-facebook.svg" alt="facebook icon" />
+            </a>
+            <a href="https://x.com/sasatera" target="_blank" rel="noopener noreferrer" aria-label="X">
+              <img class="SocialLinks__img" src="./assets/icon-x.svg" alt="x icon" />
+            </a>
+            <a href="https://www.youtube.com/terasasa" target="_blank" rel="noopener noreferrer" aria-label="Youtube">
+              <img class="SocialLinks__img" src="./assets/icon-youtube.svg" alt="youtube icon" />
+            </a>
+            <a href="https://github.com/sbondok" target="_blank" rel="noopener noreferrer" aria-label="Github">
+              <img class="SocialLinks__img" src="./assets/icon-github.svg" alt="github icon" />
+            </a>
+            <a href="https://www.linkedin.com/in/sbondok/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <img class="SocialLinks__img" src="./assets/icon-linkedin.svg" alt="linkedin icon" />
+            </a>
+          </div>
+        </header>
+
+        <!-- Glassmorphic Card Container -->
+        <section class="TodoCard">
+          <div class="TodoCard__header">
+            <h1 class="TodoCard__title">قائمة المهام الذكية</h1>
+            <p class="TodoCard__subtitle">خطط ليومك بكل سهولة وأمان</p>
+          </div>
+
+          <!-- Progress bar indicator -->
+          <div class="TodoProgress">
+            <div class="TodoProgress__info">
+              <span class="TodoProgress__label">إنجاز المهام</span>
+              <span class="TodoProgress__text" id="progress-text">0 من 0 مهام مكتملة</span>
+            </div>
+            <div class="TodoProgress__bar">
+              <div class="TodoProgress__fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Task input and add bar -->
+          <div class="TaskSearchBar">
+            <form class="TaskSearchBar__searchContent" id="task-form">
+              <input
+                id="search-input"
+                class="TaskSearchBar__input"
+                type="text"
+                placeholder="ما هي مهمتك التالية؟..."
+                autocomplete="off"
+                required
+              />
+              <button class="TaskSearchBar__button" type="submit">إضافة</button>
+            </form>
+          </div>
+
+          <!-- Task List and filter button -->
+          <div class="TaskList">
+            <div class="TaskList__header">
+              <button class="TaskList__link" type="button">
+                <span class="show">إظهار</span><span class="hide">إخفاء</span> المهام المكتملة
+              </button>
+            </div>
+            <ul class="TaskList__list" id="task-list"></ul>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="./index.ts" type="module"></script>
+  </body>
+</html>

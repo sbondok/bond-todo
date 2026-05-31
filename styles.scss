@@ -1,0 +1,665 @@
+@import "./mixins";
+
+:root {
+  --font-family: "Tajawal", "Almarai", sans-serif;
+  
+  // Font Weights
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-black: 900;
+  
+  // Font Sizes
+  --fs-xs: 1.2rem;
+  --fs-sm: 1.4rem;
+  --fs-base: 1.6rem;
+  --fs-lg: 1.8rem;
+  --fs-xl: 2.2rem;
+  --fs-xxl: 3.2rem;
+  
+  // Premium HSL Color Palette (Light Mode defaults)
+  --color-primary: #6366f1; // Indigo
+  --color-primary-hover: #4f46e5;
+  --color-accent: #06b6d4; // Cyan
+  --color-danger: #ef4444; // Rose Red
+  
+  --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(255, 255, 255, 0.5);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-border: #e2e8f0;
+  --input-focus: #6366f1;
+  --task-bg: rgba(255, 255, 255, 0.6);
+  --task-hover: rgba(255, 255, 255, 0.9);
+  --task-active-bg: rgba(241, 245, 249, 0.5);
+  --card-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+  
+  --timing-transition: 0.3s;
+  --default-padding: 1.6rem;
+}
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  font-size: 62.5%; // 10px = 1rem
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Beautiful Background Blobs */
+.Bubble {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  transition: all 0.8s ease-in-out;
+  
+  &--1 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(6, 182, 212, 0.1) 100%);
+    top: -50px;
+    right: -100px;
+  }
+  
+  &--2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, rgba(99, 102, 241, 0.1) 100%);
+    bottom: 50px;
+    left: -100px;
+  }
+}
+
+.App {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: background var(--timing-transition);
+
+  /* Premium Dark Theme Variables Overwrite */
+  &--isDark {
+    --bg-gradient: linear-gradient(135deg, #090d16 0%, #0f172a 100%);
+    --card-bg: rgba(15, 23, 42, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --input-bg: rgba(30, 41, 59, 0.8);
+    --input-border: rgba(255, 255, 255, 0.08);
+    --input-focus: #818cf8;
+    --task-bg: rgba(30, 41, 59, 0.4);
+    --task-hover: rgba(30, 41, 59, 0.7);
+    --task-active-bg: rgba(15, 23, 42, 0.3);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.05);
+
+    .Bubble--1 {
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(0,0,0,0) 70%);
+    }
+
+    .Bubble--2 {
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, rgba(0,0,0,0) 70%);
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 68rem;
+    width: 100%;
+    flex: 1;
+    padding: calc(var(--default-padding) * 1.5) var(--default-padding);
+  }
+}
+
+/* Header & Controls */
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: calc(var(--default-padding) * 2);
+  padding: 0.5rem 1rem;
+}
+
+.DarkThemeToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 0.8rem 1.6rem;
+  border-radius: 50px;
+  cursor: pointer;
+  color: var(--text-main);
+  font-family: var(--font-family);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all var(--timing-transition) cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-primary);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  .ThemeIcon {
+    width: 1.8rem;
+    height: 1.8rem;
+    transition: transform 0.5s ease;
+    
+    &--sun {
+      display: none;
+      color: #fbbf24;
+    }
+    
+    &--moon {
+      display: block;
+      color: #475569;
+    }
+  }
+
+  .App--isDark & {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(30, 41, 59, 0.6);
+    
+    .ThemeIcon--sun {
+      display: block;
+      transform: rotate(360deg);
+    }
+    
+    .ThemeIcon--moon {
+      display: none;
+    }
+  }
+}
+
+.SocialLinks {
+  display: flex;
+  gap: 1.2rem;
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.8rem;
+    height: 3.8rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all var(--timing-transition) cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-3px) scale(1.05);
+      border-color: var(--color-primary);
+      box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+      
+      .SocialLinks__img {
+        filter: none;
+        opacity: 1;
+      }
+    }
+  }
+
+  &__img {
+    width: 1.8rem;
+    height: 1.8rem;
+    opacity: 0.75;
+    transition: all var(--timing-transition);
+    
+    .App--isDark & {
+      filter: invert(1) brightness(0.85);
+    }
+  }
+}
+
+/* Glassmorphic Central Card */
+.TodoCard {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 2.4rem;
+  padding: calc(var(--default-padding) * 2);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(20px);
+  transition: all var(--timing-transition) ease;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--default-padding) * 1.5);
+
+  &__header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &__title {
+    font-size: var(--fs-xxl);
+    font-weight: var(--fw-black);
+    letter-spacing: -0.05em;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.6rem;
+  }
+
+  &__subtitle {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    color: var(--text-muted);
+  }
+}
+
+/* Modern Completion Progress Bar */
+.TodoProgress {
+  background: var(--task-bg);
+  border: 1px solid var(--card-border);
+  padding: 1.6rem;
+  border-radius: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all var(--timing-transition);
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--fs-sm);
+  }
+
+  &__label {
+    font-weight: var(--fw-bold);
+    color: var(--text-main);
+  }
+
+  &__text {
+    font-weight: var(--fw-medium);
+    color: var(--text-muted);
+  }
+
+  &__bar {
+    width: 100%;
+    height: 0.8rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50px;
+    overflow: hidden;
+    
+    .App--isDark & {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  &__fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    border-radius: 50px;
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Input / Search Bar */
+.TaskSearchBar {
+  &__searchContent {
+    display: flex;
+    background: var(--input-bg);
+    border: 1.5px solid var(--input-border);
+    height: 5.6rem;
+    border-radius: 1.6rem;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    transition: all var(--timing-transition) cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:focus-within {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__input {
+    padding: 0 var(--default-padding);
+    background: transparent;
+    border: 0;
+    flex: 1;
+    color: var(--text-main);
+    font-family: var(--font-family);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    outline: none;
+
+    &::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+  }
+
+  &__button {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+    border: 0;
+    color: white;
+    font-family: var(--font-family);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-bold);
+    cursor: pointer;
+    padding: 0 calc(var(--default-padding) * 1.5);
+    box-shadow: -4px 0 15px rgba(99, 102, 241, 0.1);
+    transition: all var(--timing-transition) ease;
+
+    &:hover {
+      opacity: 0.95;
+      padding: 0 calc(var(--default-padding) * 1.7);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}
+
+/* Task List */
+.show {
+  display: none;
+}
+
+.TaskList {
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -0.8rem;
+  }
+
+  &__link {
+    background: transparent;
+    border: 0;
+    font-family: var(--font-family);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--timing-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    &--isActive {
+      color: var(--color-primary);
+      
+      .show {
+        display: inline;
+      }
+      .hide {
+        display: none;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    list-style: none;
+    margin-top: 1.6rem;
+    
+    &--hideCompleted {
+      .TaskList__taskContent--isActive {
+        display: none !important;
+      }
+    }
+  }
+
+  /* List Item & Slide-In Animation */
+  &__taskContent {
+    background: var(--task-bg);
+    border: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    padding: 0.8rem var(--default-padding);
+    height: 5.6rem;
+    border-radius: 1.6rem;
+    animation: slideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: all var(--timing-transition) cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      background: var(--task-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+      
+      .TaskList__actionBtn {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Completed state styling */
+    &--isActive {
+      background: var(--task-active-bg);
+      border-color: rgba(0, 0, 0, 0.03);
+      
+      .TaskList__value {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        opacity: 0.65;
+      }
+
+      .TaskList__checkbox {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        
+        .TaskList__checkboxIcon {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+
+  /* Circular Custom Checkbox */
+  &__checkbox {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: 50%;
+    margin-left: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition: all var(--timing-transition) cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover, &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .TaskList__checkboxIcon {
+      width: 1.4rem;
+      height: 1.4rem;
+      color: white;
+      opacity: 0;
+      transform: scale(0.4);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  }
+
+  &__valueContent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__value {
+    flex: 1;
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    color: var(--text-main);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.8rem 0;
+    outline: none;
+    
+    &:focus-visible {
+      background: rgba(99, 102, 241, 0.05);
+      border-radius: 4px;
+    }
+  }
+
+  /* Styled live in-place input */
+  &__valueInput {
+    flex: 1;
+    font-family: var(--font-family);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    color: var(--text-main);
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid var(--color-primary);
+    border-radius: 0.8rem;
+    padding: 0.6rem 1rem;
+    outline: none;
+    width: 100%;
+    transition: all var(--timing-transition);
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+  }
+
+  /* Actions wrapper */
+  &__actions {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  /* Interactive action buttons (Edit/Delete) */
+  &__actionBtn {
+    background: transparent;
+    border: 0;
+    width: 3.2rem;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    svg {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+
+    &--edit {
+      color: var(--text-muted);
+      
+      &:hover {
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--color-primary);
+      }
+    }
+
+    &--delete {
+      color: var(--text-muted);
+      
+      &:hover {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--color-danger);
+      }
+    }
+  }
+}
+
+/* Beautiful custom empty state styling */
+.EmptyList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--default-padding) * 2.5) var(--default-padding);
+  background: rgba(99, 102, 241, 0.02);
+  border: 1.5px dashed rgba(99, 102, 241, 0.15);
+  border-radius: 2rem;
+  margin-top: 1.2rem;
+
+  &__img {
+    width: 8rem;
+    height: 8rem;
+    color: var(--color-primary);
+    opacity: 0.6;
+    margin-bottom: 1.6rem;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    
+    .App--isDark & {
+      opacity: 0.45;
+    }
+  }
+
+  &__text {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-bold);
+    color: var(--text-main);
+    margin-bottom: 0.6rem;
+  }
+
+  &__subtext {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--text-muted);
+    max-width: 32rem;
+    line-height: 1.5;
+  }
+}
+
+/* Slide-In Keyframe */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
